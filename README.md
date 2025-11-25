@@ -21,38 +21,45 @@ The Radar Range Equation is a fundamental formula used in radar system design to
 
 ## Code :
 ``` scilab
-Pt = 500;
-G = 40;
-lambda = 0.03;
-sigma = 1;
-L = 1;
+lambda = 0.03; 
+sigma = 1;     
 
-R = 500:500:50000;
-Pr_R = (Pt * G^2 * lambda^2 * sigma) ./ ((4*%pi)^3 * R.^4 * L);
+Pt_vals = 0.1:0.1:10;   
+Gt_const = 35;           
+Pm_const = 1e-13;        
+
+Rmax_Pt = ((Pt_vals .* Gt_const.^2 .* lambda.^2 .* sigma) ./ ((4*%pi)^3 .* Pm_const)).^(1/4);
+
+Gt_vals = 1:1:50;        
+Pt_const = 2;            
+Pm_const = 1e-13;
+
+Rmax_Gt = ((Pt_const .* Gt_vals.^2 .* lambda.^2 .* sigma) ./ ((4*%pi)^3 .* Pm_const)).^(1/4);
+Pm_vals = logspace(-15, -10, 50); 
+Pt_const = 2;
+Gt_const = 35;
+
+Rmax_Pm = ((Pt_const .* Gt_const.^2 .* lambda.^2 .* sigma) ./ ((4*%pi)^3 .* Pm_vals)).^(1/4);   
+
 subplot(3,1,1);
-plot(R/1000, 10*log10(Pr_R));
+plot(Pt_vals, Rmax_Pt, 'r', 'LineWidth', 2);
 
-Pt_values = 100:100:5000;
-R_fixed = 20000;
-Pr_Pt = (Pt_values * G^2 * lambda^2 * sigma) ./ ((4*%pi)^3 * R_fixed^4 * L);
 subplot(3,1,2);
-plot(Pt_values, 10*log10(Pr_Pt));
+plot(Gt_vals, Rmax_Gt, 'g', 'LineWidth', 2);
 
-G_values = 1:1:80;
-R_fixed = 20000;
-Pt_fixed = 500;
-Pr_G = (Pt_fixed * (G_values.^2) * lambda^2 * sigma) ./ ((4*%pi)^3 * R_fixed^4 * L);
 subplot(3,1,3);
-plot(G_values, 10*log10(Pr_G));
-
+plot(Pm_vals, Rmax_Pm, 'b', 'LineWidth', 2);
 
 ```
 
 ## Tabular Column :
 
+![RADAR RANGE](https://github.com/user-attachments/assets/3218ebe0-c7ea-4474-aaf9-e14c68c4f627)
+
+
 ## Output Graph :
 
-<img width="1912" height="997" alt="image" src="https://github.com/user-attachments/assets/7525210e-8ff6-4b5a-a529-416d7f5c81e6" />
+<img width="1527" height="965" alt="image" src="https://github.com/user-attachments/assets/d5af6ad6-a096-417d-a762-ed9d7f9184fa" />
 
 
 ## Result:
